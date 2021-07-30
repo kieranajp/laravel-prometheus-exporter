@@ -11,7 +11,7 @@ interface CollectorInterface
      *
      * @return string
      */
-    public function getName() : string;
+    public static function getName() : string;
 
     /**
      * Register all metrics associated with the collector.
@@ -25,12 +25,4 @@ interface CollectorInterface
      * @param PrometheusExporter $exporter
      */
     public function registerMetrics(PrometheusExporter $exporter) : void;
-
-    /**
-     * Collect metrics data, if need be, before exporting.
-     *
-     * As an example, this may be used to perform time consuming database queries and set the value of a counter
-     * or gauge.
-     */
-    public function collect() : void;
 }

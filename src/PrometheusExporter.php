@@ -71,7 +71,7 @@ class PrometheusExporter
      */
     public function registerCollector(CollectorInterface $collector) : void
     {
-        $name = $collector->getName();
+        $name = $collector::getName();
 
         if (!isset($this->collectors[$name])) {
             $this->collectors[$name] = $collector;
@@ -248,8 +248,9 @@ class PrometheusExporter
     public function export() : array
     {
         foreach ($this->collectors as $collector) {
-            /* @var CollectorInterface $collector */
-            $collector->collect();
+            if ($collector instanceof PrePopulates) {
+                $collector->collect();
+            }
         }
 
         return $this->prometheus->getMetricFamilySamples();
