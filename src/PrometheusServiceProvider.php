@@ -34,7 +34,8 @@ class PrometheusServiceProvider extends ServiceProvider
             $adapter = $app['prometheus.storage_adapter'];
             $prometheus = new CollectorRegistry($adapter, true);
             $exporter = new PrometheusExporter(config('prometheus.namespace'), $prometheus);
-            foreach (config('prometheus.collectors') as $collectorClass) {
+
+            foreach ($this->app->tagged('prometheus.collectors') as $collectorClass) {
                 $collector = $this->app->make($collectorClass);
                 $exporter->registerCollector($collector);
             }
